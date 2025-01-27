@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSS Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #input-form {
+            max-width: 400px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>XSS Detection Demo</h1>
+    <p>Enter some text below. If an XSS script is detected, a warning will appear.</p>
+
+    <form id="input-form">
+        <input type="text" id="user-input" placeholder="Type something..." />
+        <button type="button" onclick="checkInput()">Submit</button>
+    </form>
+
+    <p id="message" class="warning"></p>
+
+    <script>
+        // Function to check user input for XSS patterns
+        function checkInput() {
+            const userInput = document.getElementById("user-input").value;
+            const message = document.getElementById("message");
+
+            // Basic XSS detection regex (you can expand this)
+            const xssPattern = /<script.*?>.*?<\/script.*?>|javascript:|on\w+=".*?"/i;
+
+            if (xssPattern.test(userInput)) {
+                // If XSS script is detected, show a popup and a warning
+                alert("Potential XSS script detected!");
+                message.textContent = "Warning: XSS script detected! Please enter safe text.";
+            } else {
+                message.textContent = "Input is safe.";
+            }
+        }
+    </script>
+</body>
+</html>
